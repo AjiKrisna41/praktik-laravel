@@ -7,24 +7,20 @@
 
     @if ($surat)
         <p>
-            <strong>ID:</strong>
-            {{ $surat['id'] }}
-        </p>
-        <p>
             <strong>Nomor Surat:</strong>
-            {{ $surat['nomor_surat'] }}
+            {{ $surat-> nomor_surat }}
         </p>
         <p>
             <strong>Tanggal:</strong>
-            {{ $surat['tanggal'] }}
+            {{ $surat-> tanggal }}
         </p>
         <p>
             <strong>Pengirim:</strong>
-            {{ $surat['Pengirim'] }}
+            {{ $surat-> Pengirim }}
         </p>
         <p>
             <strong>Perihal:</strong>
-            {{ $surat['perihal'] }}
+            {{ $surat-> perihal }}
         </p>
     @else
         <p>Surat Keluar tidak ditemukan</p>

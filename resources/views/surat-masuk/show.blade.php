@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Surat')
+@section('title', 'Detail Surat Masuk')
 
 @section('content')
-    <h1>Detail surat Masuk</h1>
+    <h1>Detail Surat Masuk</h1>
 
-    @if ($surat)
-        <p>
-            <strong>Nomor Surat:</strong>
-            {{ $surat-> nomor_surat }}
-        </p>
-        <p>
-            <strong>Tanggal:</strong>
-            {{ $surat-> tanggal }}
-        </p>
-        <p>
-            <strong>Pengirim:</strong>
-            {{ $surat-> pengirim }}
-        </p>
-        <p>
-            <strong>Perihal:</strong>
-            {{ $surat-> perihal }}
-        </p>
-    @else
-        <p>Surat Masuk tidak ditemukan</p>
-    @endif
+    <p>
+        <strong>Nomor Surat:</strong>
+        {{ $surat-> nomor_surat }}
+    </p>
+    <p>
+        <strong>Tanggal:</strong>
+        {{ $surat-> tanggal }}
+    </p>
+    <p>
+        <strong>Pengirim:</strong>
+        {{ $surat-> pengirim }}
+    </p>
+    <p>
+        <strong>Perihal:</strong>
+        {{ $surat-> perihal }}
+    </p>
+    <p>
+        <strong>Keterangan:</strong>
+        {{ $surat-> keterangan ?? '-' }}
+    </p>
 
+    <a href="{{ route('surat-masuk.edit', $surat-> id) }}">Edit</a>
     <a href="{{ route('surat-masuk.index') }}">Kembali</a>
-
 @endsection

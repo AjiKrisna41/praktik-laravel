@@ -1,17 +1,43 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\SuratMasukController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('dashboard');
-})->name('dashboard');
+// ===== Hanya untuk tamu (belum login) =====
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+});
 
-// Surat Masuk (CRUD lengkap, 7 route)
-Route::resource('surat-masuk', SuratMasukController::class)
-    ->parameters(['surat-masuk' => 'id']);
+// ===== Wajib login =====
+Route::middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-// Surat Keluar (tetap seperti P3 dulu; jadikan resource saat mengerjakan latihan mandiri)
-Route::resource('surat-keluar', SuratKeluarController::class)
-    ->parameters(['surat-keluar' => 'id']);
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+    // ----- Surat Masuk -----
+    // Ubah data (petugas saja), didaftarkan lebih dulu agar /create tidak dianggap {id}
+    Route::resource('surat-masuk', SuratMasukController::class)
+        ->except(['index', 'show'])
+        ->parameters(['surat-masuk' => 'id'])
+        ->middleware('can:manage-letters');
+
+    // Baca saja (semua pengguna yang login)
+    Route::resource('surat-masuk', SuratMasukController::class)
+        ->only(['index', 'show'])
+        ->parameters(['surat-masuk' => 'id']);
+
+    // ----- Surat Keluar (latihan mandiri P5) -----
+    Route::resource('surat-keluar', SuratKeluarController::class)
+        ->except(['index', 'show'])
+        ->parameters(['surat-keluar' => 'id'])
+        ->middleware('can:manage-letters');
+
+    Route::resource('surat-keluar', SuratKeluarController::class)
+        ->only(['index', 'show'])
+        ->parameters(['surat-keluar' => 'id']);
+});

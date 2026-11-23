@@ -2,7 +2,7 @@
 @section('title', 'Edit Surat Keluar')
 @section('content')
     <div class="mx-auto max-w-2xl">
-        <form action="{{ route('surat-keluar.update', $surat->id) }}" method="POST" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <form action="{{ route('surat-keluar.update', $surat->id) }}" method="POST" enctype="multipart/form-data" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             @csrf
             @method('PUT')
 
@@ -43,6 +43,7 @@
                     <textarea name="keterangan" rows="4" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200">{{ old('keterangan', $surat->keterangan) }}</textarea>
                     @error('keterangan') <span class="mt-1 block text-sm text-red-600">{{ $message }}</span> @enderror
                 </p>
+                @include('partials.kategori-lampiran')
             </div>
 
             {{-- Tombol --}}

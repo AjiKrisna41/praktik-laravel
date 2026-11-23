@@ -14,6 +14,8 @@
         <p class="mb-4 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">{{ session('success') }}</p>
     @endif
 
+    @include('partials.filter-surat', ['route' => 'surat-masuk.index'])
+
     <div class="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
     <table class="w-full text-left text-sm">
         <thead class="bg-slate-100 text-xs uppercase tracking-wide text-slate-600">
@@ -23,17 +25,25 @@
                 <th class="px-4 py-3">Tanggal Surat</th>
                 <th class="px-4 py-3">Pengirim</th>
                 <th class="px-4 py-3">Perihal</th>
+                <th class="px-4 py-3">Kategori</th>
                 <th class="px-4 py-3">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-100">
             @forelse ($suratMasuk as $surat)
                 <tr class="transition hover:bg-indigo-50/50">
-                    <td class="px-4 py-3 text-slate-500">{{ $loop->iteration }}</td>
+                    <td class="px-4 py-3 text-slate-500">{{ $suratMasuk->firstItem() + $loop->index }}</td>
                     <td class="px-4 py-3 font-medium text-slate-900">{{ $surat->nomor_surat }}</td>
                     <td class="px-4 py-3">{{ $surat->tanggal }}</td>
                     <td class="px-4 py-3">{{ $surat->pengirim }}</td>
                     <td class="px-4 py-3">{{ $surat->perihal }}</td>
+                    <td class="px-4 py-3">
+                        @if ($surat->category)
+                            <span class="rounded-full bg-indigo-50 px-2.5 py-1 text-xs font-semibold text-indigo-700">{{ $surat->category->nama }}</span>
+                        @else
+                            <span class="text-slate-400">Tanpa kategori</span>
+                        @endif
+                    </td>
                     <td class="px-4 py-3">
                         <div class="flex flex-wrap items-center gap-2">
                         <a href="{{ route('surat-masuk.show', $surat->id) }}" class="rounded-md bg-sky-50 px-2.5 py-1 text-xs font-semibold text-sky-700 transition hover:bg-sky-100">Detail</a>
@@ -53,10 +63,14 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="6" class="px-4 py-10 text-center text-slate-500">Belum ada data surat masuk.</td>
+                    <td colspan="7" class="px-4 py-10 text-center text-slate-500">Belum ada data surat masuk.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+    </div>
+
+    <div class="mt-4">
+        {{ $suratMasuk->links() }}
     </div>
 @endsection

@@ -35,11 +35,26 @@
                     <dt class="text-sm font-semibold text-slate-500">Keterangan:</dt>
                     <dd class="whitespace-pre-line text-slate-900 sm:col-span-2">{{ $surat->keterangan ?? '-' }}</dd>
                 </div>
+                <div class="grid gap-1 px-6 py-4 sm:grid-cols-3 sm:gap-4">
+                    <dt class="text-sm font-semibold text-slate-500">Kategori:</dt>
+                    <dd class="text-slate-900 sm:col-span-2">{{ $surat->category?->nama ?? 'Tanpa kategori' }}</dd>
+                </div>
+                @if ($surat->lampiran)
+                    <div class="grid gap-1 px-6 py-4 sm:grid-cols-3 sm:gap-4">
+                        <dt class="text-sm font-semibold text-slate-500">Lampiran:</dt>
+                        <dd class="sm:col-span-2">
+                            <a href="{{ asset('storage/' . $surat->lampiran) }}" target="_blank" rel="noopener"
+                                class="font-medium text-indigo-600 hover:underline">Lihat lampiran</a>
+                        </dd>
+                    </div>
+                @endif
             </dl>
 
             {{-- Tombol --}}
             <div class="flex flex-wrap items-center gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
+                @can('manage-letters')
                 <a href="{{ route('surat-masuk.edit', $surat->id) }}" class="rounded-lg bg-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-700">Edit</a>
+                @endcan
                 <a href="{{ route('surat-masuk.index') }}" class="rounded-lg border border-slate-300 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100">Kembali</a>
             </div>
         </div>

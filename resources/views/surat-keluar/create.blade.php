@@ -2,7 +2,7 @@
 @section('title', 'Tambah Surat Keluar')
 @section('content')
     <div class="mx-auto max-w-2xl">
-        <form action="{{ route('surat-keluar.store') }}" method="POST" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <form action="{{ route('surat-keluar.store') }}" method="POST" enctype="multipart/form-data" class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
             @csrf
 
             {{-- Kepala kartu --}}
@@ -50,6 +50,7 @@
                                 class="w-full rounded-lg border bg-white px-3 py-2.5 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:ring-2 @error('keterangan') border-red-400 focus:border-red-500 focus:ring-red-100 @else border-slate-300 focus:border-indigo-500 focus:ring-indigo-200 @enderror">{{ old('keterangan') }}</textarea>
                     @error('keterangan') <span class="mt-1 block text-sm text-red-600">{{ $message }}</span> @enderror
                 </p>
+                @include('partials.kategori-lampiran')
             </div>
 
             {{-- Tombol --}}
